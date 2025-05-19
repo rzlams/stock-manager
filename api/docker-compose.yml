@@ -1,0 +1,73 @@
+services:
+  database:
+    image: postgis/postgis:13-master
+    # Required when running on platform other than amd64, like Apple M1/M2:
+    # platform: linux/amd64
+    volumes:
+      - ./data/database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: '${DB_USER}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_DATABASE}'
+    healthcheck:
+      test: ['CMD', 'pg_isready', '--host=localhost', '--username=${POSTGRES_USER}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - stock-manager
+
+  cache:
+    image: redis:6
+    healthcheck:
+      test: ['CMD-SHELL', "[ $$(redis-cli ping) = 'PONG' ]"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - stock-manager
+
+  directus:
+    image: directus/directus:11.7.2
+    ports:
+      - 8055:8055
+    volumes:
+      - ./uploads:/directus/uploads # for uploads
+      - ./extensions:/directus/extensions # for loading extensions
+      - ./templates:/directus/templates # for overriding and extending email templates
+    environment:
+      SECRET: '${DIRECTUS_SECRET}'
+      DB_CLIENT: '${DB_CLIENT}'
+      DB_HOST: '${DB_HOST}'
+      DB_PORT: '${DB_PORT}'
+      DB_DATABASE: '${DB_DATABASE}'
+      DB_USER: '${DB_USER}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      CACHE_ENABLED: '${CACHE_ENABLED}'
+      CACHE_AUTO_PURGE: '${CACHE_AUTO_PURGE}'
+      CACHE_STORE: '${CACHE_STORE}'
+      REDIS: '${REDIS}'
+      ADMIN_EMAIL: '${ADMIN_EMAIL}'
+      ADMIN_PASSWORD: '${ADMIN_PASSWORD}'
+      PUBLIC_URL: '${PUBLIC_URL}' # Default for local if not set in .env
+    depends_on:
+      database:
+        condition: service_healthy
+      cache:
+        condition: service_healthy
+    networks:
+      - stock-manager
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - 8080:8080
+    networks:
+      - stock-manager
+
+networks:
+  stock-manager:
+    driver: bridge

@@ -1,0 +1,202 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  /* ===== COLOR TOKENS ===== */
+
+  /* Neutral Colors - Used for text, backgrounds, borders */
+  --color-neutral-50: #f5f7fa; /* Light background color */
+  --color-neutral-100: #f8fafc; /* Secondary background, table row zebra striping */
+  --color-neutral-200: #e2e8f0; /* Borders, dividers */
+  --color-neutral-300: #cbd5e1; /* Input borders, secondary borders */
+  --color-neutral-400: #94a3b8; /* Placeholder text, disabled content */
+  --color-neutral-500: #64748b; /* Secondary text, icons */
+  --color-neutral-600: #475569; /* Body text color */
+  --color-neutral-700: #334155; /* Primary text color */
+  --color-neutral-800: #1e293b; /* Dark sidebar top gradient */
+  --color-neutral-900: #0f172a; /* Dark sidebar bottom gradient */
+
+  /* Primary Colors - Main brand colors for key elements */
+  --color-primary: #3b82f6; /* Primary button background, active menu items */
+  --color-primary-hover: #2563eb; /* Hover state for primary elements */
+  --color-primary-active: #1d4ed8; /* Active/pressed state */
+  --color-primary-light: #bfdbfe; /* Light background for primary elements, pagination active */
+  --color-primary-dark: #1e40af; /* Dark variant for contrast */
+  --color-primary-contrast: #ffffff; /* Text on primary backgrounds */
+
+  /* Secondary Colors - Supporting colors for secondary elements */
+  --color-secondary: #64748b; /* Secondary buttons, less prominent elements */
+  --color-secondary-hover: #475569; /* Hover state for secondary elements */
+  --color-secondary-active: #334155; /* Active/pressed state */
+  --color-secondary-light: #f1f5f9; /* Light background for secondary elements, hover states */
+  --color-secondary-contrast: #ffffff; /* Text on secondary backgrounds */
+
+  /* Semantic Colors - Communicate meaning through color */
+  /* Success Colors */
+  --color-success: #22c55e; /* Success buttons, messages, indicators */
+  --color-success-hover: #16a34a; /* Hover state for success elements */
+  --color-success-light: #dcfce7; /* Light background for success elements, badges */
+  --color-success-dark: #166534; /* Text color for success badges */
+
+  /* Warning Colors */
+  --color-warning: #f59e0b; /* Warning buttons, messages, indicators */
+  --color-warning-hover: #d97706; /* Hover state for warning elements */
+  --color-warning-light: #fef3c7; /* Light background for warning elements, badges */
+  --color-warning-dark: #92400e; /* Text color for warning badges */
+
+  /* Danger Colors */
+  --color-danger: #ef4444; /* Danger/error buttons, messages, indicators */
+  --color-danger-hover: #dc2626; /* Hover state for danger elements */
+  --color-danger-light: #fee2e2; /* Light background for danger elements, badges */
+  --color-danger-dark: #b91c1c; /* Text color for danger badges */
+
+  /* ===== TYPOGRAPHY TOKENS ===== */
+
+  /* Font Families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Font Sizes */
+  --text-xs: 0.75rem; /* 12px - Badge text, small labels */
+  --text-sm: 0.875rem; /* 14px - Secondary text, button text */
+  --text-base: 1rem; /* 16px - Body text, inputs */
+  --text-lg: 1.125rem; /* 18px - Section headers */
+  --text-xl: 1.25rem; /* 20px - Page headers */
+  --text-2xl: 1.5rem; /* 24px - Main page title */
+  --text-3xl: 1.875rem; /* 30px - Large titles */
+
+  /* Font Weights */
+  --font-light: 300;
+  --font-regular: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.25;
+  --leading-snug: 1.375;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.625;
+  --leading-loose: 2;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  /* ===== SPACING TOKENS ===== */
+
+  /* Base Spacing Scale - Used for margins, paddings, gaps */
+  --space-0: 0;
+  --space-1: 0.25rem; /* 4px - Tiny elements spacing */
+  --space-2: 0.5rem; /* 8px - Small elements spacing */
+  --space-3: 0.75rem; /* 12px - Medium-small spacing */
+  --space-4: 1rem; /* 16px - Standard spacing */
+  --space-5: 1.25rem; /* 20px - Medium spacing */
+  --space-6: 1.5rem; /* 24px - Medium-large spacing */
+  --space-8: 2rem; /* 32px - Large spacing */
+  --space-10: 2.5rem; /* 40px - Larger spacing */
+  --space-12: 3rem; /* 48px - Extra large spacing */
+  --space-16: 4rem; /* 64px - Section spacing */
+  --space-20: 5rem; /* 80px - Major section spacing */
+  --space-24: 6rem; /* 96px - Page section spacing */
+
+  /* Container Sizes */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1536px;
+
+  /* ===== BORDER TOKENS ===== */
+
+  /* Border Radius */
+  --radius-none: 0;
+  --radius-sm: 0.125rem; /* 2px */
+  --radius-md: 0.375rem; /* 6px */
+  --radius-lg: 0.5rem; /* 8px - Standard rounded corners */
+  --radius-xl: 0.75rem; /* 12px - Larger elements like cards */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-full: 9999px; /* For pills and circles */
+
+  /* Border Widths */
+  --border-0: 0;
+  --border-1: 1px;
+  --border-2: 2px;
+  --border-4: 4px;
+  --border-8: 8px;
+
+  /* ===== EFFECT TOKENS ===== */
+
+  /* Box Shadows */
+  --shadow-none: none;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* Subtle shadow */
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* Standard shadow */
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* Larger elements */
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* Modals, drawers */
+  --shadow-2xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Large overlays */
+  --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06); /* Inset shadow */
+
+  /* Transitions */
+  --transition-all: all 0.2s ease;
+  --transition-colors: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, fill 0.2s ease, stroke 0.2s ease;
+  --transition-opacity: opacity 0.2s ease;
+  --transition-shadow: box-shadow 0.2s ease;
+  --transition-transform: transform 0.2s ease;
+
+  /* ===== BREAKPOINT TOKENS ===== */
+
+  /* Media Query Breakpoints */
+  --breakpoint-sm: 640px; /* Small screens (phones) */
+  --breakpoint-md: 768px; /* Medium screens (tablets) */
+  --breakpoint-lg: 1024px; /* Large screens (laptops) */
+  --breakpoint-xl: 1280px; /* Extra large screens (desktops) */
+  --breakpoint-2xl: 1536px; /* Extra extra large screens */
+
+  /* ===== LAYOUT TOKENS ===== */
+
+  /* Z-index Scale */
+  --z-0: 0;
+  --z-10: 10; /* Low priority UI elements */
+  --z-20: 20; /* Standard UI elements */
+  --z-30: 30; /* Sticky elements */
+  --z-40: 40; /* Overlays, dropdowns */
+  --z-50: 50; /* Modals, drawers */
+  --z-auto: auto;
+
+  /* ===== ANIMATIONS ===== */
+
+  /* Accordion*/
+  --accordion-down: accordion-down 0.2s ease-out;
+  --accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: '0';
+    }
+    to {
+      height: 'var(--radix-accordion-content-height)';
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: 'var(--radix-accordion-content-height)';
+    }
+    to {
+      height: '0';
+    }
+  }
+}
+
+@layer base {
+  body {
+    font-family: var(--font-primary);
+    background-color: var(--color-neutral-50);
+    color: var(--color-neutral-700);
+  }
+}
