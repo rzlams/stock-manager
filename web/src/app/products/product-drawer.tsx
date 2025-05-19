@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea'
 import { cn } from '@/lib/utils'
 import { Upload, X } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 interface Product {
   id: string
@@ -23,6 +23,7 @@ interface Product {
   sku?: string
   barcode?: string
   vendor?: string
+  image?: string
 }
 
 interface ProductDrawerProps {
@@ -45,7 +46,11 @@ export function ProductDrawer({ isOpen, onClose, product, onSave }: ProductDrawe
     sku: '',
     barcode: '',
     vendor: '',
+    image: '',
   })
+  const [selectedImage, setSelectedImage] = useState<File | null>(null)
+  const [imagePreview, setImagePreview] = useState<string>('')
+  const [isDragging, setIsDragging] = useState(false)
 
   useEffect(() => {
     if (product) {
@@ -67,6 +72,7 @@ export function ProductDrawer({ isOpen, onClose, product, onSave }: ProductDrawe
         sku: '',
         barcode: '',
         vendor: '',
+        image: '',
       })
     }
   }, [product, isOpen])
@@ -81,9 +87,68 @@ export function ProductDrawer({ isOpen, onClose, product, onSave }: ProductDrawe
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    // TODO: include selectedImage in the submit data
+    console.log(selectedImage)
     onSave(formData)
     onClose()
   }
+
+  const handleImageChange = useCallback((file: File) => {
+    // Validate file type
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif']
+    if (!validTypes.includes(file.type)) {
+      alert('Please upload a valid image file (PNG, JPG, or GIF)')
+      return
+    }
+
+    // Validate file size (5MB)
+    const maxSize = 5 * 1024 * 1024 // 5MB in bytes
+    if (file.size > maxSize) {
+      alert('File size must be less than 5MB')
+      return
+    }
+
+    setSelectedImage(file)
+    const reader = new FileReader()
+    reader.onloadend = () => {
+      setImagePreview(reader.result as string)
+      setFormData((prev) => ({ ...prev, image: reader.result as string }))
+    }
+    reader.readAsDataURL(file)
+  }, [])
+
+  const handleDragOver = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }, [])
+
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
+    e.preventDefault()
+    setIsDragging(false)
+  }, [])
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault()
+      setIsDragging(false)
+
+      const file = e.dataTransfer.files[0]
+      if (file) {
+        handleImageChange(file)
+      }
+    },
+    [handleImageChange]
+  )
+
+  const handleFileInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0]
+      if (file) {
+        handleImageChange(file)
+      }
+    },
+    [handleImageChange]
+  )
 
   return (
     <>
@@ -320,14 +385,44 @@ export function ProductDrawer({ isOpen, onClose, product, onSave }: ProductDrawe
                       <label htmlFor="imageUpload" className="font-medium text-neutral-700 text-sm">
                         Image Upload
                       </label>
-                      <div className="flex flex-col justify-center items-center bg-neutral-50 p-4 border border-neutral-300 border-dashed rounded-md h-32 text-center cursor-pointer">
-                        <Upload className="mb-2 w-8 h-8 text-neutral-400" />
-                        <p className="text-primary text-sm">Upload a file</p>
-                        <p className="text-neutral-500 text-xs">
-                          or drag and drop
-                          <br />
-                          PNG, JPG, GIF up to 5MB
-                        </p>
+                      <input type="file" id="imageUpload" accept="image/jpeg,image/png,image/gif" onChange={handleFileInput} className="hidden" />
+                      <div
+                        className={cn(
+                          'flex flex-col justify-center items-center bg-neutral-50 p-4 border border-neutral-300 border-dashed rounded-md h-32 text-center cursor-pointer transition-colors',
+                          isDragging ? 'border-primary bg-primary/5' : 'hover:bg-neutral-100'
+                        )}
+                        onDragOver={handleDragOver}
+                        onDragLeave={handleDragLeave}
+                        onDrop={handleDrop}
+                        onClick={() => document.getElementById('imageUpload')?.click()}
+                      >
+                        {imagePreview ? (
+                          <div className="relative w-full h-full">
+                            <img src={imagePreview} alt="Preview" className="w-full h-full object-contain" />
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setSelectedImage(null)
+                                setImagePreview('')
+                                setFormData((prev) => ({ ...prev, image: '' }))
+                              }}
+                              className="top-1 right-1 absolute bg-white hover:bg-neutral-100 shadow-sm p-1 rounded-full"
+                            >
+                              <X size={16} className="text-neutral-500" />
+                            </button>
+                          </div>
+                        ) : (
+                          <>
+                            <Upload className="mb-2 w-8 h-8 text-neutral-400" />
+                            <p className="text-primary text-sm">Upload a file</p>
+                            <p className="text-neutral-500 text-xs">
+                              or drag and drop
+                              <br />
+                              PNG, JPG, GIF up to 5MB
+                            </p>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>

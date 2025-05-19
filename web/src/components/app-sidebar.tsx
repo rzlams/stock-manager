@@ -29,7 +29,7 @@ export function AppSidebar() {
             <NavItem href="/products" icon={<Package size={20} />} label="Products" isOpen={isOpen} active={pathname === '/products'} />
             <NavItem href="/suppliers" icon={<Store size={20} />} label="Suppliers" isOpen={isOpen} active={pathname === '/suppliers'} />
             <NavItem href="/customers" icon={<Users size={20} />} label="Customers" isOpen={isOpen} active={pathname === '/customers'} />
-            <NavItem href="/orders" icon={<ShoppingCart size={20} />} label="Orders" isOpen={isOpen} active={pathname === '/orders'} />
+            <NavItem href="/purchases" icon={<ShoppingCart size={20} />} label="Purchases" isOpen={isOpen} active={pathname === '/purchases'} />
           </nav>
         </div>
 
