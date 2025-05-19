@@ -1,0 +1,59 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+This project is a monorepo containing a backend API and a web frontend.
+
+*   The `api/` directory houses a headless CMS powered by Directus, containerized using Docker.
+*   The `web/` directory contains a frontend application built with Next.js 14 (App Router) and TypeScript.
+
+# Folder Structure
+
+-   **Root Directory**:
+    -   `api/`: Contains the Directus backend.
+    -   `web/`: Contains the Next.js frontend.
+    -   `ui.dio`: A diagram file (likely for UI/UX design, not directly part of the buildable code structure).
+
+-   `api/`: Directus Headless CMS.
+    -   `.env.example`: Example environment variables for Directus configuration.
+    -   `.gitignore`: Specifies intentionally untracked files for the API.
+    -   `README.md`: Provides setup and operational instructions for the Directus API.
+    -   `directus_local_db.sql`: A sample SQL dump, potentially for initializing a local development database.
+    -   `docker-compose.yml`: Defines and configures the Docker services for Directus and its PostgreSQL database.
+
+-   `web/`: Next.js Frontend Application.
+    -   `.gitignore`: Specifies intentionally untracked files for the web application.
+    -   `README.md`: Provides setup, development, and build instructions for the Next.js application.
+    -   `components.json`: Configuration file for Shadcn/ui, specifying component paths and settings.
+    -   `eslint.config.mjs`: ESLint configuration for code linting.
+    -   `next.config.ts`: Configuration file for the Next.js framework.
+    -   `package-lock.json`: Records the exact versions of dependencies.
+    -   `package.json`: Lists project dependencies, scripts (dev, build, start, lint), and metadata.
+    -   `postcss.config.mjs`: Configuration for PostCSS, used for CSS transformations (often with Tailwind CSS).
+    -   `tailwind.config.ts`: Configuration file for Tailwind CSS, including custom themes, plugins, and content paths.
+    -   `public/`: Contains static assets directly served by Next.js.
+        -   `file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`: Example SVG image assets.
+    -   `src/`: The main source code directory for the Next.js application.
+        -   `app/`: Implements the Next.js App Router paradigm.
+            -   `favicon.ico`: The application's favicon.
+            -   `globals.css`: Global stylesheets applied to the entire application.
+            -   `layout.tsx`: The root layout component for the application.
+            -   `products/`: A feature-specific route directory.
+                -   `page.tsx`: The main page component for the `/products` route.
+                -   `product-drawer.tsx`: A UI component, likely a drawer for product details or actions.
+                -   `products-table.tsx`: A UI component for displaying products in a table.
+        -   `components/`: Contains reusable React components.
+            -   `app-sidebar.tsx`: Component for the application's sidebar navigation.
+            -   `nav-item.tsx`: Component for individual navigation items.
+            -   `sidebar-provider.tsx`: A React context provider likely managing sidebar state.
+            -   `ui/`: Directory for UI primitive components, typically from a library like Shadcn/ui.
+                -   `button.tsx`: Reusable button component.
+                -   `input.tsx`: Reusable input field component.
+                -   `select.tsx`: Reusable select (dropdown) component.
+                -   `table.tsx`: Reusable table component.
+                -   `textarea.tsx`: Reusable textarea component.
+        -   `hooks/`: Contains custom React hooks.
+            -   `use-mobile.ts`: A custom hook, likely for detecting if the application is running on a mobile device.
+        -   `lib/`: Contains utility functions and helper modules.
+            -   `utils.ts`: General utility functions, often including functions for `cn` (class name merging for Tailwind CSS).

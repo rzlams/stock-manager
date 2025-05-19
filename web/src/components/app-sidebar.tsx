@@ -2,11 +2,13 @@
 
 import { useSidebar } from '@/components/sidebar-provider'
 import { cn } from '@/lib/utils'
-import { BarChart, LayoutDashboard, LineChart, Package, Settings, ShoppingCart, Users } from 'lucide-react'
+import { BarChart, LayoutDashboard, LineChart, Package, Settings, ShoppingCart, Store, Users } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { NavItem } from './nav-item'
 
 export function AppSidebar() {
   const { isOpen } = useSidebar()
+  const pathname = usePathname()
 
   return (
     <aside
@@ -23,25 +25,26 @@ export function AppSidebar() {
         <div className="mb-6">
           <p className={cn('px-3 mb-2 text-neutral-400 text-xs font-medium uppercase tracking-wider', isOpen ? 'block' : 'hidden')}>Main</p>
           <nav className="space-y-1">
-            <NavItem href="/" icon={<LayoutDashboard size={20} />} label="Dashboard" isOpen={isOpen} />
-            <NavItem href="/products" icon={<Package size={20} />} label="Products" isOpen={isOpen} active />
-            <NavItem href="/customers" icon={<Users size={20} />} label="Customers" isOpen={isOpen} />
-            <NavItem href="/orders" icon={<ShoppingCart size={20} />} label="Orders" isOpen={isOpen} />
+            <NavItem href="/" icon={<LayoutDashboard size={20} />} label="Dashboard" isOpen={isOpen} active={pathname === '/'} />
+            <NavItem href="/products" icon={<Package size={20} />} label="Products" isOpen={isOpen} active={pathname === '/products'} />
+            <NavItem href="/suppliers" icon={<Store size={20} />} label="Suppliers" isOpen={isOpen} active={pathname === '/suppliers'} />
+            <NavItem href="/customers" icon={<Users size={20} />} label="Customers" isOpen={isOpen} active={pathname === '/customers'} />
+            <NavItem href="/orders" icon={<ShoppingCart size={20} />} label="Orders" isOpen={isOpen} active={pathname === '/orders'} />
           </nav>
         </div>
 
         <div className="mb-6">
           <p className={cn('px-3 mb-2 text-neutral-400 text-xs font-medium uppercase tracking-wider', isOpen ? 'block' : 'hidden')}>Reports</p>
           <nav className="space-y-1">
-            <NavItem href="/sales" icon={<BarChart size={20} />} label="Sales" isOpen={isOpen} />
-            <NavItem href="/inventory" icon={<LineChart size={20} />} label="Inventory" isOpen={isOpen} />
+            <NavItem href="/sales" icon={<BarChart size={20} />} label="Sales" isOpen={isOpen} active={pathname === '/sales'} />
+            <NavItem href="/inventory" icon={<LineChart size={20} />} label="Inventory" isOpen={isOpen} active={pathname === '/inventory'} />
           </nav>
         </div>
       </div>
 
       <div className="bottom-8 absolute px-3 w-full">
         <nav className="space-y-1">
-          <NavItem href="/settings" icon={<Settings size={20} />} label="Settings" isOpen={isOpen} />
+          <NavItem href="/settings" icon={<Settings size={20} />} label="Settings" isOpen={isOpen} active={pathname === '/settings'} />
         </nav>
       </div>
     </aside>

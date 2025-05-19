@@ -36,7 +36,7 @@ export default function ProductsPage() {
         </div>
 
         <div className="flex md:flex-row flex-col justify-between gap-4 mb-6">
-          <div className="w-full md:w-[70%]">
+          <div className="w-full md:w-[40%]">
             <Input placeholder="Search products..." className="border-neutral-300 h-10" prefix={<Search className="w-4 h-4 text-neutral-400" />} />
           </div>
           <Button

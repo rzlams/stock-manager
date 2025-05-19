@@ -88,10 +88,7 @@ export function ProductDrawer({ isOpen, onClose, product, onSave }: ProductDrawe
   return (
     <>
       {/* Backdrop overlay */}
-      <div
-        className={cn('fixed inset-0 z-40 bg-black/50 transition-opacity', isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none')}
-        onClick={onClose}
-      />
+      <div className={cn('fixed inset-0 z-40 bg-black/50 transition-opacity', isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none')} />
 
       <div
         className={cn(
